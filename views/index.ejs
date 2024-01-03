@@ -1,0 +1,55 @@
+<!-- views/home.ejs -->
+
+<%- include('partials/header.ejs', { pageTitle: 'Home' }) %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Home</title>
+</head>
+<body>
+    
+
+    <% if (posts && posts.length > 0) { %>
+        <div>
+            <% posts.forEach((post, index) => { %>
+                <article>
+                    <h2><%= post.title %></h2>
+                    <p><em>By <%= post.author %></em></p>
+                    <p><%= post.content %></p>
+                    
+                    <!-- Update and delete buttons -->
+                    <form action="/update-post/<%= index %>" method="get">
+                        <button type="submit">Update</button>
+                    </form>
+                    <form action="/delete-post/<%= index %>" method="post">
+                        <button type="submit">Delete</button>
+                    </form>
+                </article>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p>No blog posts available.</p>
+    <% } %>
+
+    <!-- Form for creating new blog posts -->
+    <form action="/create-post" method="post">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required>
+
+        <label for="content">Content:</label>
+        <textarea id="content" name="content" required></textarea>
+
+        <button type="submit">Create Post</button>
+    </form>
+<%- include("partials/footer.ejs")%>
+    <!-- Add navigation, footer, or other elements as needed -->
+
+</body>
+</html>
